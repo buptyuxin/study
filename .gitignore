@@ -16,3 +16,11 @@ hs_err_pid*
 .settings/
 .classpath
 *.war
+study-core/.settings/
+study-core/target/
+study-core/.project
+study-core/.classpath
+study-web/.settings/
+study-web/target/
+study-web/.project
+study-web/.classpath
