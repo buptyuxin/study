@@ -5,11 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-
-
-
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -26,6 +23,8 @@ public class CoreTest {
     
     static private Logger logger = LoggerFactory.getLogger(CoreTest.class);
     
+    static private Map<String, String> beanMap = new HashMap<>();
+    
     private Long ll;
     
     public Long getLl() {
@@ -39,7 +38,8 @@ public class CoreTest {
 
     public static void main(String[] args) {
         
-        
+        String filePath = "/";
+        parseDOM(filePath);
         
         beanFactory = new DefaultListableBeanFactory();
         GenericBeanDefinition bd = new GenericBeanDefinition();
@@ -61,12 +61,23 @@ public class CoreTest {
         try {
             InputStream inputStream = new FileInputStream(new File("classpath:"+filePath));
             SAXReader saxReader = new SAXReader();
-            //似乎只能传入绝对路径？？？
+            //似乎只能传入绝对路径？？？换成inputStream了
 //            Document document = saxReader.read(new File("classpath:"+filePath));
             Document document = saxReader.read(inputStream);
             
             Element rootElement = document.getRootElement();
-            Element element = rootElement.element("bean");
+            
+            String pattern = "bean";
+            if (rootElement.element(pattern) != null) {
+                List<Element> elements = rootElement.elements(pattern);
+                for (Element element : elements) {
+                    Element idElement = element.element("id");
+                    System.out.println(idElement.getName() + ":" + idElement.getTextTrim());
+                    Element classElement = element.element("class");
+                    System.out.println(classElement.getName() + ":" + classElement.getTextTrim());
+                    beanMap.put(idElement.getTextTrim(), classElement.getTextTrim());
+                }
+            }
             
         } catch (FileNotFoundException e) {
             logger.info("XML file not found");
