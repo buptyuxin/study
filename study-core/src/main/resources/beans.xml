@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-	<bean id = "coreTest" class = "com.ali.yanmo.study.core.CoreTest" />
+	<bean id = "coreTest" class = "com.ali.yanmo.study.core.CoreTest">
+		<property name = "ll">15</property>
+	</bean>
 </beans>

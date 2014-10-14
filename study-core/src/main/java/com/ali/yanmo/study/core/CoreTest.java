@@ -27,18 +27,27 @@ public class CoreTest {
     
     private Long ll;
     
+    private Integer ii;
+    
     public Long getLl() {
         return ll;
     }
 
-
     public void setLl(Long ll) {
         this.ll = ll;
+    }
+    
+    public Integer getIi() {
+        return ii;
+    }
+    
+    public void SetIi(Integer ii) {
+        this.ii = ii;
     }
 
     public static void main(String[] args) {
         
-        String filePath = "/";
+        String filePath = "beans.xml";
         parseDOM(filePath);
         
         beanFactory = new DefaultListableBeanFactory();
@@ -59,7 +68,8 @@ public class CoreTest {
     
     public static void parseDOM(String filePath) {
         try {
-            InputStream inputStream = new FileInputStream(new File("classpath:"+filePath));
+            InputStream inputStream = CoreTest.class.getClassLoader().getResourceAsStream(filePath);
+//            InputStream inputStream = new FileInputStream(new File(filePath));
             SAXReader saxReader = new SAXReader();
             //似乎只能传入绝对路径？？？换成inputStream了
 //            Document document = saxReader.read(new File("classpath:"+filePath));
@@ -71,17 +81,18 @@ public class CoreTest {
             if (rootElement.element(pattern) != null) {
                 List<Element> elements = rootElement.elements(pattern);
                 for (Element element : elements) {
-                    Element idElement = element.element("id");
-                    System.out.println(idElement.getName() + ":" + idElement.getTextTrim());
-                    Element classElement = element.element("class");
-                    System.out.println(classElement.getName() + ":" + classElement.getTextTrim());
-                    beanMap.put(idElement.getTextTrim(), classElement.getTextTrim());
+                    String beanId = element.attributeValue("id");
+                    String beanClass = element.attributeValue("class");
+                    System.out.println("id:" + beanId);
+                    System.out.println("class:" + beanClass);
+                    Element propElement = element.element("property");
+                    System.out.println(propElement.getName() + ":" + propElement.getTextTrim());
+                    beanMap.put(beanId, beanClass);
                 }
             }
-            
-        } catch (FileNotFoundException e) {
+        } /*catch (FileNotFoundException e) {
             logger.info("XML file not found");
-        } catch (DocumentException e) {
+        }*/ catch (DocumentException e) {
             logger.info("XML file read error");
             e.printStackTrace();
         }
