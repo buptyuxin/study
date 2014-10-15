@@ -20,7 +20,6 @@ public class CoreTest {
     static private Logger logger = LoggerFactory.getLogger(CoreTest.class);
     
     static private Map<String, String> beanMap = new HashMap<>();
-    static private Parser parser = new DOMParser();
     
     private Long ll;
     
@@ -44,6 +43,7 @@ public class CoreTest {
 
     public static void main(String[] args) {
         
+        Parser parser = new DOMParser();
         String filePath = "beans.xml";
         InputStream inputStream = CoreTest.class.getClassLoader().getResourceAsStream(filePath);
         parser.parse(inputStream);

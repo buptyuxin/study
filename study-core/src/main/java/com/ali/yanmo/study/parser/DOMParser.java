@@ -19,6 +19,9 @@ public class DOMParser implements Parser {
         parseDOM(inputStream);
     }
     
+    /*
+     * 如何处理？
+     */
     public void parseDOM(InputStream inputStream) {
         try {
             SAXReader saxReader = new SAXReader();

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JobManager {
 
-    public static Logger logger = LoggerFactory.getLogger(JobManager.class);
+    private Logger logger = LoggerFactory.getLogger(JobManager.class);
 
     private ThreadPoolExecutor threadPoolExecutor;
     private BlockingQueue<Job> jobs;
@@ -29,13 +29,12 @@ public class JobManager {
         if (threadPoolExecutor == null) {
             threadPoolExecutor = new ThreadPoolExecutor(JobConstants.corePoolSize, JobConstants.maximumPoolSize,
                     JobConstants.keepAliveTime, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(
-                            JobConstants.queueLength));
+                            JobConstants.queueLength), new ThreadPoolExecutor.CallerRunsPolicy());
         }
     }
     
     /*
      * 拉任务
-     * 外部使用需要使用定时任务？？？
      */
     public void pullJobs(List<Job> jobList) {
         while(!jobList.isEmpty()) {
@@ -56,5 +55,9 @@ public class JobManager {
         } catch (InterruptedException e) {
             logger.error("failed to take job", e.toString());
         }
+    }
+    
+    public void shutdown() {
+        threadPoolExecutor.shutdown();
     }
 }
