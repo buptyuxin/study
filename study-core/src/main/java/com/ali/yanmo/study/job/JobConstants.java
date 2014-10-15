@@ -6,5 +6,7 @@ public class JobConstants {
     
     static public int maximumPoolSize = 8;
     
-    static public long keepAliveTime = 5000;
+    static public long keepAliveTime = 1000;
+    
+    static public int queueLength = 4;
 }

@@ -4,5 +4,5 @@ import java.io.InputStream;
 
 public interface Parser {
     
-    public void parseDOM(InputStream inputStream);
+    public void parse(InputStream inputStream);
 }

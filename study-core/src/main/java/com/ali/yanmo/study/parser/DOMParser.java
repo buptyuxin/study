@@ -15,6 +15,10 @@ public class DOMParser implements Parser {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Override
+    public void parse(InputStream inputStream) {
+        parseDOM(inputStream);
+    }
+    
     public void parseDOM(InputStream inputStream) {
         try {
             SAXReader saxReader = new SAXReader();

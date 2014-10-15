@@ -46,7 +46,7 @@ public class CoreTest {
         
         String filePath = "beans.xml";
         InputStream inputStream = CoreTest.class.getClassLoader().getResourceAsStream(filePath);
-        parser.parseDOM(inputStream);
+        parser.parse(inputStream);
         
         beanFactory = new DefaultListableBeanFactory();
         GenericBeanDefinition bd = new GenericBeanDefinition();
